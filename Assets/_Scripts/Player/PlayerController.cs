@@ -38,17 +38,22 @@ public class PlayerController : MonoBehaviour
     {
         if (_input == Vector3.zero) 
         {
-            _animator.SetTrigger("Idle");
+            //_animator.SetTrigger("Idle");
+            _animator.SetBool("IsWalking", false);
+            _animator.SetBool("IsIdle", true);
             return; 
         }
 
-        _animator.SetTrigger("Walk");
+        //_animator.SetTrigger("Walk");
+        
         Quaternion rot = Quaternion.LookRotation(_input.ToIso(), Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
     }
 
     private void Move()
     {
+        _animator.SetBool("IsWalking", true);
+        _animator.SetBool("IsIdle", false);
         _characterController.Move(transform.forward * _input.normalized.magnitude * _moveSpeed * Time.fixedDeltaTime);
     }
 }
