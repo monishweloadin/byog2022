@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(SphereCollider),typeof(Rigidbody))]
 public class PickableObject : MonoBehaviour
 {
 
