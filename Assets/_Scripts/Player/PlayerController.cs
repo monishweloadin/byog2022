@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody _rb;
+    private CharacterController _characterController;
     private float _moveSpeed = 5;
     private float _turnSpeed = 360;
     private Vector3 _input;
 
+    private Animator _animator;
+
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        _characterController = GetComponent<CharacterController>();  
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -33,15 +36,19 @@ public class PlayerController : MonoBehaviour
 
     private void Look()
     {
-        if (_input == Vector3.zero) return;
+        if (_input == Vector3.zero) 
+        {
+            _animator.SetTrigger("Idle");
+            return; 
+        }
 
+        _animator.SetTrigger("Walk");
         Quaternion rot = Quaternion.LookRotation(_input.ToIso(), Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
     }
 
     private void Move()
     {
-        _rb.MovePosition(transform.position + (transform.forward * _input.normalized.magnitude) * _moveSpeed * Time.deltaTime);
+        _characterController.Move(transform.forward * _input.normalized.magnitude * _moveSpeed * Time.fixedDeltaTime);
     }
-
 }
