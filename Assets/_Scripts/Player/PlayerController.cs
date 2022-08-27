@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpHeight = 3;
 
     [SerializeField] private bool _isGrounded = true;
+    [SerializeField] private bool _isBlocking = true;
 
     private int _punchCombo = 0;
 
@@ -20,13 +21,12 @@ public class PlayerController : MonoBehaviour
 
     private Animator _animator;
 
-    private int Punch1 = Animator.StringToHash("PlayerRightJab");
-    private int Punch2 = Animator.StringToHash("PlayerLeftJab");
 
 
 
     private void Start()
     {
+        _isBlocking = false;
         _characterController = GetComponent<CharacterController>();  
         _animator = GetComponent<Animator>();
 
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        CheckForGrounded();
         GetInput();
         Look();
 
@@ -42,19 +43,12 @@ public class PlayerController : MonoBehaviour
         {
             Punch();
         }
-        else
-        {
-            Move();
-            CheckForGrounded();
-            CheckForJump();
-        }
+
+        Move();
+        CheckForJump();
 
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
 
     private void GetInput()
     {
@@ -84,7 +78,6 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("MovementBlend", inputMagnitude);
 
         _characterController.Move(transform.forward * inputMagnitude * _moveSpeed * Time.deltaTime);
-
         
     }
 
