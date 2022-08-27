@@ -1319,7 +1319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minChaseDistance: 10
   _minAttackDistance: 2
-  Player: {fileID: 0}
   ShowDistance: 0
 --- !u!1 &8909337311674230390
 GameObject:
