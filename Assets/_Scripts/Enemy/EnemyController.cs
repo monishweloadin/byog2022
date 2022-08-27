@@ -115,6 +115,14 @@ public class EnemyController : MonoBehaviour
             return false;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerHit"))
+        {
+            _animator.SetTrigger("DamageTaken");
+        }
+    }
+
 
     public void PunchedPlayer()
     {

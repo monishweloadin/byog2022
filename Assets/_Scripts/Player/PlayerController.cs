@@ -198,12 +198,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // add health to enemy
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("EnemyHit"))
         {
-            print("boom");
-            other.GetComponent<Animator>().SetTrigger("DamageTaken");
-            ReduceHealth(10);
+            _animator.SetTrigger("DamageTaken");
         }
     }
 
