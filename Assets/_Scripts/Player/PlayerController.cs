@@ -170,8 +170,6 @@ public class PlayerController : MonoBehaviour
         {
             if(LevelManager.Instance.AvalaiblePickupObjects.Count > 0)
             {
-                UIController.Instance.EnablePickupUI(false);
-
                 if (_currentObjectOnHand != null)
                 {
                     _currentObjectOnHand.transform.parent = null;
@@ -191,17 +189,29 @@ public class PlayerController : MonoBehaviour
                 obj.transform.localRotation = Quaternion.Euler(obj.GetComponent<PickableObject>().ObjectRotation);
 
                 _currentObjectOnHand = obj;
+
+                UIController.Instance.EnablePickupUI(false);
             }
+
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        // reduce health
+        // add health to enemy
+        if (other.CompareTag("Enemy"))
+        {
+            ReduceHealth(1);
+        }
     }
 
     public void AddHealth(float value)
     {
-        
+        Health = Mathf.Clamp(Health + value, 0, 100);
+    }
+
+    public void ReduceHealth(float value)
+    {
+        Health = Mathf.Clamp(Health - value, 0, 100);
     }
 }

@@ -118,7 +118,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // reduce health
+        // add health to player
         if (other.CompareTag("Player"))
         {
             if (other.GetComponent<PlayerController>().IsBlocking)
@@ -127,6 +127,7 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
+                other.GetComponent<PlayerController>().AddHealth(10);
                 other.GetComponent<Animator>().SetTrigger("DamageTaken");
             }
         }
