@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 2587499424843984690}
   - component: {fileID: 2587499424843984685}
   - component: {fileID: 6656317189064894321}
+  - component: {fileID: 4864294946487201082}
   m_Layer: 0
   m_Name: Spiked_Bat
   m_TagString: Untagged
@@ -108,7 +109,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2587499424843984687}
-  m_LocalRotation: {x: 0, y: 0, z: -0.10896233, w: 0.9940459}
+  m_LocalRotation: {x: 0, y: 0, z: -0.19509031, w: 0.98078537}
   m_LocalPosition: {x: 21.458666, y: 0.104, z: -21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -116,7 +117,7 @@ Transform:
   - {fileID: 2814850931618164759}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -12.511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -22.5}
 --- !u!54 &2587499424843984691
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,6 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanPickup: 0
+  PostionOffset: {x: 0.38, y: 0.113, z: 0.059}
   ObjectRotation: {x: 0, y: 0, z: 90}
 --- !u!65 &2587499424843984685
 BoxCollider:
@@ -170,10 +172,23 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.5844822
+  m_Height: 2.9501767
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.0136459, z: 0.007156372}
+--- !u!135 &4864294946487201082
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2587499424843984687}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15553567
+  m_Center: {x: 0, y: 0.2755714, z: 0.0066671073}
 --- !u!1 &4095466110577612839
 GameObject:
   m_ObjectHideFlags: 0
