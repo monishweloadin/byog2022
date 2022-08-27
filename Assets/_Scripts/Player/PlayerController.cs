@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();  
         _animator = GetComponent<Animator>();
 
-        transform.GetChild(0).transform.position = new Vector3(transform.GetChild(0).transform.position.x, -2.2f, transform.GetChild(0).transform.position.z);
     }
 
     private void Update()
