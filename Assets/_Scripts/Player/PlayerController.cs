@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
         _isBlocking = false;
         _characterController = GetComponent<CharacterController>();  
         _animator = GetComponent<Animator>();
-
     }
 
     private void Update()
@@ -37,15 +36,10 @@ public class PlayerController : MonoBehaviour
         CheckForGrounded();
         GetInput();
         Look();
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Punch();
-        }
-
+        Punch();
+        Block();
         Move();
         CheckForJump();
-
     }
 
 
@@ -66,7 +60,7 @@ public class PlayerController : MonoBehaviour
     {
         float inputMagnitude = _input.normalized.magnitude;
 
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerLeftJab") || _animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerRightJab"))
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerLeftJab") || _animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerRightJab") || _isBlocking)
             inputMagnitude = 0;
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -83,49 +77,74 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 playerVelocity;
     private void CheckForJump()
-    {
+    {        
         if (_isGrounded && playerVelocity.y < -1f)
             playerVelocity.y = 0;
 
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
             playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3f * _gravity);
+            _animator.SetTrigger("Jump");
         }
 
         playerVelocity.y += _gravity * 10 * Time.deltaTime;
         _characterController.Move(playerVelocity * Time.deltaTime);
     }
 
+    private bool _prevGrounded = true;
     private void CheckForGrounded()
     {
-        Debug.DrawRay(transform.position, Vector3.down, Color.green);
+        _prevGrounded = _isGrounded;
+
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.3f))
-        {             
+        {
             if (hit.transform.CompareTag("Ground"))
             {
                 _isGrounded = true;
             }
         }
         else
+        {
             _isGrounded = false;
+        }
+
+        if (_prevGrounded != _isGrounded)
+            _animator.SetTrigger("JumpLanded");
     }
 
     private void Punch()
     {
-        
-        switch(_punchCombo)
+        if (Input.GetMouseButtonDown(0))
         {
-            case 0:
-                _punchCombo = 1;
-                _animator.SetTrigger("Punch1");
-                break;
-            case 1:
-                _punchCombo = 0;
-                _animator.SetTrigger("Punch2");
-                break;
+
+            switch (_punchCombo)
+            {
+                case 0:
+                    _punchCombo = 1;
+                    _animator.SetTrigger("Punch1");
+                    break;
+                case 1:
+                    _punchCombo = 0;
+                    _animator.SetTrigger("Punch2");
+                    break;
+
+            }
+            _characterController.Move(Vector3.zero);
 
         }
-        _characterController.Move(Vector3.zero);
+    }
 
+    private void Block()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            _animator.SetBool("IsBlocking", true);
+            _isBlocking = true;
+        }
+        else if(Input.GetMouseButtonUp(1))
+        {
+            _animator.SetBool("IsBlocking", false);
+            _isBlocking = false;
+        }
     }
 }
