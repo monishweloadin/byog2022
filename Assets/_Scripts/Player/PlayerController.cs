@@ -21,7 +21,9 @@ public class PlayerController : MonoBehaviour
 
     private Animator _animator;
 
+    public GameObject RightHand;
 
+    private GameObject _currentObjectOnHand;
 
 
     private void Start()
@@ -40,6 +42,9 @@ public class PlayerController : MonoBehaviour
         Block();
         Move();
         CheckForJump();
+
+
+        CheckForPickUp();
     }
 
 
@@ -116,7 +121,6 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-
             switch (_punchCombo)
             {
                 case 0:
@@ -145,6 +149,35 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("IsBlocking", false);
             _isBlocking = false;
+        }
+    }
+
+    private void CheckForPickUp()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if(LevelManager.Instance.AvalaiblePickupObjects.Count > 0)
+            {
+                UIController.Instance.EnablePickupUI(false);
+
+                if (_currentObjectOnHand != null)
+                {
+                    _currentObjectOnHand.transform.parent = null;
+                    _currentObjectOnHand.GetComponent<SphereCollider>().enabled = true;
+                    _currentObjectOnHand.GetComponent<Rigidbody>().isKinematic = false;
+                }
+
+                GameObject obj = LevelManager.Instance.AvalaiblePickupObjects[0];
+                LevelManager.Instance.AvalaiblePickupObjects.RemoveAt(0);
+
+                obj.GetComponent<SphereCollider>().enabled = false;
+                obj.GetComponent<Rigidbody>().isKinematic= true;
+                obj.transform.SetParent(RightHand.transform);
+                obj.transform.localPosition = Vector3.zero;
+                obj.transform.localRotation = Quaternion.Euler(obj.GetComponent<PickableObject>().ObjectRotation);
+
+                _currentObjectOnHand = obj;
+            }
         }
     }
 }
