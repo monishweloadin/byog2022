@@ -6,10 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 5;
     [SerializeField] private float _sprintSpeedMultiplier = 2;
+    [SerializeField] private float _jumpHeight = 3;
 
     private CharacterController _characterController;
     private float _turnSpeed = 360;
     private Vector3 _input;
+
+    private float _gravity = -9.81f;
 
     private Animator _animator;
 
@@ -58,5 +61,25 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("MovementBlend", inputMagnitude);
 
         _characterController.Move(transform.forward * inputMagnitude * _moveSpeed * Time.fixedDeltaTime);
+
+        CheckForJump();
+    }
+
+    private void CheckForJump()
+    {
+        Vector3 playerVelocity = Vector3.zero;
+
+        print(_characterController.isGrounded);
+
+        if(Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
+        {
+            print("jumpo");
+            playerVelocity.y += Mathf.Sqrt(_jumpHeight * -1 * _gravity);
+        }
+
+        playerVelocity.y += _gravity * Time.fixedDeltaTime;
+
+        _characterController.Move(playerVelocity * Time.fixedDeltaTime);
+        
     }
 }
