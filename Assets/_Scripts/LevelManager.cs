@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
 
+    public GameObject Player;
     public List<GameObject> AvalaiblePickupObjects;
 
     private void Awake()

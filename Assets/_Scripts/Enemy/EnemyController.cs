@@ -5,16 +5,12 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 5;
-    [SerializeField] private float _sprintSpeedMultiplier = 2;
-
     [SerializeField] private float _minChaseDistance = 10;
     [SerializeField] private float _minAttackDistance = 10;
 
-    public GameObject Player;
+    private GameObject _player;
+    public bool ShowDistance;
     
-    private bool _isGrounded = true;
-
     private NavMeshAgent _navMeshAgent;
     private NavMeshPath _path;
     
@@ -23,25 +19,30 @@ public class EnemyController : MonoBehaviour
 
     private EnemyState _enemyState;
 
+    private Coroutine _punchingCoroutine;
+
     private void Start()
     {
+        _player = LevelManager.Instance.Player;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _path = new NavMeshPath();
         _animator = GetComponent<Animator>();
 
-        _enemyState = EnemyState.IDLE;
+        ChangeState(EnemyState.IDLE);
 
-        
     }
 
     private void Update()
     {        
-        _navMeshAgent.CalculatePath(Player.transform.position, _path);
+        _navMeshAgent.CalculatePath(_player.transform.position, _path);
         if(_path.status != NavMeshPathStatus.PathComplete)
         {
             print("return");
             return;
         }
+
+        if (ShowDistance)
+            GetPathLength(_path);
 
         if (PlayerWithinDistance(_path, _minAttackDistance))
         {
@@ -57,7 +58,7 @@ public class EnemyController : MonoBehaviour
         }
 
         if(_enemyState == EnemyState.CHASE)
-            _navMeshAgent.destination = Player.transform.position;
+            _navMeshAgent.destination = _player.transform.position;
 
     }
 
@@ -67,14 +68,23 @@ public class EnemyController : MonoBehaviour
         if(state == _enemyState)
             return;
 
+        if (state != EnemyState.ATTACK && _punchingCoroutine != null)
+            StopCoroutine(_punchingCoroutine);
+
+
         switch (state)
         {
             case EnemyState.IDLE:
-
+                _navMeshAgent.isStopped = true;
+                _animator.SetTrigger("Idle");
                 break;
             case EnemyState.CHASE:
+                _navMeshAgent.isStopped = false;
+                _animator.SetTrigger("Walk");
                 break;
             case EnemyState.ATTACK:
+                _navMeshAgent.isStopped = false;
+                _animator.SetTrigger("Punch");
                 break;
         }
         _enemyState = state;
