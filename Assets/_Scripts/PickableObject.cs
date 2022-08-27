@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider),typeof(Rigidbody))]
 public class PickableObject : MonoBehaviour
 {
-
+    public bool CanPickup;
     public Vector3 ObjectRotation;
 
     private void Start()

@@ -65,7 +65,8 @@ public class PlayerController : MonoBehaviour
     {
         float inputMagnitude = _input.normalized.magnitude;
 
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerLeftJab") || _animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerRightJab") || _isBlocking)
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerLeftJab") || _animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerRightJab") || _isBlocking 
+            || _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Prop_Meele"))
             inputMagnitude = 0;
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -121,20 +122,24 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            switch (_punchCombo)
+            if (_currentObjectOnHand == null)
             {
-                case 0:
-                    _punchCombo = 1;
-                    _animator.SetTrigger("Punch1");
-                    break;
-                case 1:
-                    _punchCombo = 0;
-                    _animator.SetTrigger("Punch2");
-                    break;
-
+                switch (_punchCombo)
+                {
+                    case 0:
+                        _punchCombo = 1;
+                        _animator.SetTrigger("Punch1");
+                        break;
+                    case 1:
+                        _punchCombo = 0;
+                        _animator.SetTrigger("Punch2");
+                        break;
+                }
             }
-            _characterController.Move(Vector3.zero);
-
+            else
+            {
+                _animator.SetTrigger("WeaponHit");
+            }
         }
     }
 
@@ -165,6 +170,7 @@ public class PlayerController : MonoBehaviour
                     _currentObjectOnHand.transform.parent = null;
                     _currentObjectOnHand.GetComponent<SphereCollider>().enabled = true;
                     _currentObjectOnHand.GetComponent<Rigidbody>().isKinematic = false;
+                    _currentObjectOnHand.GetComponent<PickableObject>().CanPickup = true;
                 }
 
                 GameObject obj = LevelManager.Instance.AvalaiblePickupObjects[0];
@@ -172,6 +178,7 @@ public class PlayerController : MonoBehaviour
 
                 obj.GetComponent<SphereCollider>().enabled = false;
                 obj.GetComponent<Rigidbody>().isKinematic= true;
+                obj.GetComponent<PickableObject>().CanPickup = false;
                 obj.transform.SetParent(RightHand.transform);
                 obj.transform.localPosition = Vector3.zero;
                 obj.transform.localRotation = Quaternion.Euler(obj.GetComponent<PickableObject>().ObjectRotation);
@@ -179,5 +186,10 @@ public class PlayerController : MonoBehaviour
                 _currentObjectOnHand = obj;
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // reduce health
     }
 }
