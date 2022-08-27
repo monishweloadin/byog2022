@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float Health = 100;
+    public float Stamina = 100;
+
     [SerializeField] private float _moveSpeed = 5;
     [SerializeField] private float _sprintSpeedMultiplier = 2;
     [SerializeField] private float _jumpHeight = 3;
@@ -172,7 +175,7 @@ public class PlayerController : MonoBehaviour
                 if (_currentObjectOnHand != null)
                 {
                     _currentObjectOnHand.transform.parent = null;
-                    _currentObjectOnHand.GetComponent<SphereCollider>().enabled = true;
+                    _currentObjectOnHand.GetComponent<CapsuleCollider>().enabled = true;
                     _currentObjectOnHand.GetComponent<Rigidbody>().isKinematic = false;
                     _currentObjectOnHand.GetComponent<PickableObject>().CanPickup = true;
                 }
@@ -180,7 +183,7 @@ public class PlayerController : MonoBehaviour
                 GameObject obj = LevelManager.Instance.AvalaiblePickupObjects[0];
                 LevelManager.Instance.AvalaiblePickupObjects.RemoveAt(0);
 
-                obj.GetComponent<SphereCollider>().enabled = false;
+                obj.GetComponent<CapsuleCollider>().enabled = false;
                 obj.GetComponent<Rigidbody>().isKinematic= true;
                 obj.GetComponent<PickableObject>().CanPickup = false;
                 obj.transform.SetParent(RightHand.transform);
@@ -195,5 +198,10 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // reduce health
+    }
+
+    public void AddHealth(float value)
+    {
+        
     }
 }

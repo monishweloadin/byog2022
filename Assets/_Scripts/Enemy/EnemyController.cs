@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    public float Health = 100;
+
     [SerializeField] private float _minChaseDistance = 10;
     [SerializeField] private float _minAttackDistance = 10;
 
@@ -119,10 +121,14 @@ public class EnemyController : MonoBehaviour
         // reduce health
         if (other.CompareTag("Player"))
         {
-            if(other.GetComponent<PlayerController>().IsBlocking)
+            if (other.GetComponent<PlayerController>().IsBlocking)
+            {
                 other.GetComponent<Animator>().SetTrigger("DamageTakenBlock");
+            }
             else
+            {
                 other.GetComponent<Animator>().SetTrigger("DamageTaken");
+            }
         }
     }
 }

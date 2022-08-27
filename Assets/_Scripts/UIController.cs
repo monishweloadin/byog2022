@@ -8,7 +8,6 @@ public class UIController : MonoBehaviour
 
     public GameObject PickupUI;
 
-
     private void Awake()
     {
         if(Instance == null)
