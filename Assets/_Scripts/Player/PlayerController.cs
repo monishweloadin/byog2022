@@ -196,12 +196,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         // add health to enemy
         if (other.CompareTag("Enemy"))
         {
-            ReduceHealth(1);
+            print("boom");
+            other.GetComponent<Animator>().SetTrigger("DamageTaken");
+            ReduceHealth(10);
         }
     }
 

@@ -116,20 +116,17 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    public void PunchedPlayer()
     {
-        // add health to player
-        if (other.CompareTag("Player"))
+        if (_player.transform.GetComponent<PlayerController>().IsBlocking)
         {
-            if (other.GetComponent<PlayerController>().IsBlocking)
-            {
-                other.GetComponent<Animator>().SetTrigger("DamageTakenBlock");
-            }
-            else
-            {
-                other.GetComponent<PlayerController>().AddHealth(10);
-                other.GetComponent<Animator>().SetTrigger("DamageTaken");
-            }
+            _player.transform.GetComponent<Animator>().SetTrigger("DamageTakenBlock");
+        }
+        else
+        {
+            print("ouch");
+            _player.transform.GetComponent<PlayerController>().AddHealth(10);
+            _player.transform.GetComponent<Animator>().SetTrigger("DamageTaken");
         }
     }
 }
