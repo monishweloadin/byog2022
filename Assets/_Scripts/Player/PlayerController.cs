@@ -200,7 +200,10 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("EnemyHit"))
         {
-            _animator.SetTrigger("DamageTaken");
+            if(IsBlocking)
+                _animator.SetTrigger("DamageTakenBlock");
+            else
+                _animator.SetTrigger("DamageTaken");
         }
     }
 

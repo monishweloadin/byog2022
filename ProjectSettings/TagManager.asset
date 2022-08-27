@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - EnemyHit
+  - PlayerHit
+  - PickableObject
   layers:
   - Default
   - TransparentFX

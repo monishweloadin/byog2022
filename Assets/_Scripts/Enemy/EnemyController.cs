@@ -123,20 +123,6 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-
-    public void PunchedPlayer()
-    {
-        if (_player.transform.GetComponent<PlayerController>().IsBlocking)
-        {
-            _player.transform.GetComponent<Animator>().SetTrigger("DamageTakenBlock");
-        }
-        else
-        {
-            print("ouch");
-            _player.transform.GetComponent<PlayerController>().AddHealth(10);
-            _player.transform.GetComponent<Animator>().SetTrigger("DamageTaken");
-        }
-    }
 }
 
 public enum EnemyState
