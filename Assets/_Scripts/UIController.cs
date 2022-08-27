@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -8,12 +9,34 @@ public class UIController : MonoBehaviour
 
     public GameObject PickupUI;
 
+    private PlayerController _player;
+
+    [Header("Player UI")]
+    public Slider HealthSlider;
+    public Slider StaminaSider;
+
     private void Awake()
     {
         if(Instance == null)
             Instance = this;
         else
             Destroy(Instance);
+    }
+
+    private void Start()
+    {
+        _player = LevelManager.Instance.Player.GetComponent<PlayerController>();
+    }
+
+    private void Update()
+    {
+        UpdatePlayerUI();
+    }
+
+    public void UpdatePlayerUI()
+    {
+        HealthSlider.value = _player.Health;
+        StaminaSider.value = _player.Stamina;
     }
 
 

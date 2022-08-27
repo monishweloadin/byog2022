@@ -1728,7 +1728,9 @@ MonoBehaviour:
   Health: 100
   _minChaseDistance: 10
   _minAttackDistance: 2
+  RightHand: {fileID: 7813269204151710137}
   ShowDistance: 0
+  CurrentlyHoldingItem: {fileID: 0}
 --- !u!54 &1370581147
 Rigidbody:
   m_ObjectHideFlags: 0

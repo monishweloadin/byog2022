@@ -1,19 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
     public float Health = 100;
 
+    public float HealthReducePerHit = 10;
+
+    public float HealthDecreaseMultiplier = 1;
+
+    public bool CanReduceLifeOverTime = false;
+
     [SerializeField] private float _minChaseDistance = 10;
     [SerializeField] private float _minAttackDistance = 10;
+
+    public GameObject RightHand;
 
     private GameObject _player;
     public bool ShowDistance;
     
-    private NavMeshAgent _navMeshAgent;
+    public NavMeshAgent EnemyNavMeshAgent;
     private NavMeshPath _path;
     
 
@@ -21,22 +30,49 @@ public class EnemyController : MonoBehaviour
 
     private EnemyState _enemyState;
 
-    private Coroutine _punchingCoroutine;
+    public GameObject CurrentlyHoldingItem;
+
+    [Header("UI")]
+    public Slider HealthUI;
+
+    public bool CanMove;
 
     private void Start()
     {
+        CanMove = true;
         _player = LevelManager.Instance.Player;
-        _navMeshAgent = GetComponent<NavMeshAgent>();
+        EnemyNavMeshAgent = GetComponent<NavMeshAgent>();
         _path = new NavMeshPath();
         _animator = GetComponent<Animator>();
+
+        EnemyNavMeshAgent.isStopped = false;
 
         ChangeState(EnemyState.IDLE);
 
     }
 
+    public void ResetEnemyMoving()
+    {
+        EnemyNavMeshAgent.isStopped = false;
+    }
+
+    public void ChangeToIdle()
+    {
+        _animator.SetTrigger("Idle");
+    }
+
     private void Update()
-    {        
-        _navMeshAgent.CalculatePath(_player.transform.position, _path);
+    {
+        if (!CanMove)
+        {
+            EnemyNavMeshAgent.isStopped = true;
+            return;
+        }
+
+        UpdateSelfUI();
+
+
+        EnemyNavMeshAgent.CalculatePath(_player.transform.position, _path);
         if(_path.status != NavMeshPathStatus.PathComplete)
         {
             print("return");
@@ -60,8 +96,16 @@ public class EnemyController : MonoBehaviour
         }
 
         if(_enemyState == EnemyState.CHASE)
-            _navMeshAgent.destination = _player.transform.position;
+            EnemyNavMeshAgent.destination = _player.transform.position;
 
+        if (CanReduceLifeOverTime)
+            DecreaseHealthOvertime();
+
+    }
+
+    public void UpdateSelfUI()
+    {
+        HealthUI.value = Health;
     }
 
 
@@ -70,23 +114,27 @@ public class EnemyController : MonoBehaviour
         if(state == _enemyState)
             return;
 
-        if (state != EnemyState.ATTACK && _punchingCoroutine != null)
-            StopCoroutine(_punchingCoroutine);
-
 
         switch (state)
         {
             case EnemyState.IDLE:
-                _navMeshAgent.isStopped = true;
+                EnemyNavMeshAgent.isStopped = true;
                 _animator.SetTrigger("Idle");
                 break;
             case EnemyState.CHASE:
-                _navMeshAgent.isStopped = false;
+                EnemyNavMeshAgent.isStopped = false;
                 _animator.SetTrigger("Walk");
                 break;
             case EnemyState.ATTACK:
-                _navMeshAgent.isStopped = false;
-                _animator.SetTrigger("Punch");
+                EnemyNavMeshAgent.isStopped = false;
+                if (CurrentlyHoldingItem != null)
+                {
+                    _animator.SetTrigger("WeaponHit");
+                }
+                else
+                {
+                    _animator.SetTrigger("Punch");
+                }
                 break;
         }
         _enemyState = state;
@@ -119,7 +167,77 @@ public class EnemyController : MonoBehaviour
     {
         if (other.CompareTag("PlayerHit"))
         {
+            other.transform.root.GetComponent<PlayerController>().ReduceHealth(10);
             _animator.SetTrigger("DamageTaken");
+
+            if (other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand != null)
+            {
+                GameObject obj = other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand;
+                other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand = null;
+
+                if (CurrentlyHoldingItem != null) 
+                { 
+                    CurrentlyHoldingItem.transform.parent = null;
+
+                    CurrentlyHoldingItem.GetComponent<CapsuleCollider>().enabled = true;
+                    CurrentlyHoldingItem.GetComponent<BoxCollider>().enabled = true;
+                    CurrentlyHoldingItem.GetComponent<Rigidbody>().isKinematic = false;
+                    CurrentlyHoldingItem.GetComponent<PickableObject>().CanPickup = true;
+                }
+
+                PickupObject(obj);
+
+            }
+        }
+
+        if (other.CompareTag("PickableObject"))
+        {
+            if (CurrentlyHoldingItem == null)
+            {
+                GameObject obj = other.gameObject;
+                PickupObject(obj);
+            }
+        }
+    }
+
+    private void PickupObject(GameObject obj)
+    {
+        if(LevelManager.Instance.AvalaiblePickupObjects.Contains(obj))
+            LevelManager.Instance.AvalaiblePickupObjects.Remove(obj);
+
+        obj.GetComponent<CapsuleCollider>().enabled = false;
+        obj.GetComponent<BoxCollider>().enabled = false;
+        obj.GetComponent<Rigidbody>().isKinematic = true;
+        obj.GetComponent<PickableObject>().CanPickup = false;
+
+        obj.transform.SetParent(this.RightHand.transform);
+        obj.transform.localPosition = obj.GetComponent<PickableObject>().PostionOffset;
+        obj.transform.localRotation = Quaternion.Euler(obj.GetComponent<PickableObject>().ObjectRotation);
+
+        CurrentlyHoldingItem = obj;
+
+        UIController.Instance.EnablePickupUI(false);
+    }
+
+    public void AddHealth(float value)
+    {
+        Health = Mathf.Clamp(Health + value, 0, 100);
+    }
+
+    public void ReduceHealth(float value)
+    {
+        Health = Mathf.Clamp(Health - value, 0, 100);
+    }
+
+    private float healthTimeElapsed = 0;
+    private void DecreaseHealthOvertime()
+    {
+        healthTimeElapsed += Time.deltaTime;
+
+        if (healthTimeElapsed >= HealthDecreaseMultiplier)
+        {
+            healthTimeElapsed %= HealthDecreaseMultiplier;
+            ReduceHealth(1);
         }
     }
 

@@ -7,6 +7,15 @@ public class PlayerController : MonoBehaviour
     public float Health = 100;
     public float Stamina = 100;
 
+    public float HealthReducePerHit = 10;
+    public float StaminaReducePerHit = 10;
+
+    public float HealthncreaseMultiplier = 0.5f;
+    public float StaminaIncreaseMultiplier = 5;
+
+    public bool CanIncraseStamina = true;
+    public bool CanIncraseHealth = false;
+
     [SerializeField] private float _moveSpeed = 5;
     [SerializeField] private float _sprintSpeedMultiplier = 2;
     [SerializeField] private float _jumpHeight = 3;
@@ -26,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject RightHand;
 
-    private GameObject _currentObjectOnHand;
+    public GameObject CurrentObjectOnHand;
 
 
     private void Start()
@@ -45,9 +54,14 @@ public class PlayerController : MonoBehaviour
         Block();
         Move();
         CheckForJump();
-
-
         CheckForPickUp();
+        CheckForItemDrop();
+
+        if (CanIncraseStamina)
+            IncreaseStaminaOvertime();
+
+        if(CanIncraseHealth)
+            IncreaseHealthOvertime();
     }
 
 
@@ -129,7 +143,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (_currentObjectOnHand == null)
+            if (CurrentObjectOnHand == null)
             {
                 switch (_punchCombo)
                 {
@@ -170,12 +184,12 @@ public class PlayerController : MonoBehaviour
         {
             if(LevelManager.Instance.AvalaiblePickupObjects.Count > 0)
             {
-                if (_currentObjectOnHand != null)
+                if (CurrentObjectOnHand != null)
                 {
-                    _currentObjectOnHand.transform.parent = null;
-                    _currentObjectOnHand.GetComponent<CapsuleCollider>().enabled = true;
-                    _currentObjectOnHand.GetComponent<Rigidbody>().isKinematic = false;
-                    _currentObjectOnHand.GetComponent<PickableObject>().CanPickup = true;
+                    CurrentObjectOnHand.transform.parent = null;
+                    CurrentObjectOnHand.GetComponent<CapsuleCollider>().enabled = true;
+                    CurrentObjectOnHand.GetComponent<Rigidbody>().isKinematic = false;
+                    CurrentObjectOnHand.GetComponent<PickableObject>().CanPickup = true;
                 }
 
                 GameObject obj = LevelManager.Instance.AvalaiblePickupObjects[0];
@@ -188,11 +202,39 @@ public class PlayerController : MonoBehaviour
                 obj.transform.localPosition = obj.GetComponent<PickableObject>().PostionOffset;
                 obj.transform.localRotation = Quaternion.Euler(obj.GetComponent<PickableObject>().ObjectRotation);
 
-                _currentObjectOnHand = obj;
+                CurrentObjectOnHand = obj;
+
+                if (CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.STOP)
+                {
+                    CurrentObjectOnHand.transform.GetChild(0).gameObject.SetActive(false);
+                }
 
                 UIController.Instance.EnablePickupUI(false);
             }
+        }
+    }
 
+    private void CheckForItemDrop()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            if (CurrentObjectOnHand != null)
+            {
+                CurrentObjectOnHand.transform.parent = null;
+                CurrentObjectOnHand.GetComponent<CapsuleCollider>().enabled = true;
+                CurrentObjectOnHand.GetComponent<Rigidbody>().isKinematic = false;
+                CurrentObjectOnHand.GetComponent<PickableObject>().CanPickup = true;
+
+                if (CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.STOP)
+                {
+                    CurrentObjectOnHand.transform.position = transform.position + transform.forward + (Vector3.up * 2);
+                    CurrentObjectOnHand.transform.rotation = transform.rotation;
+
+                    CurrentObjectOnHand.transform.GetChild(0).gameObject.SetActive(true);
+                }
+
+                CurrentObjectOnHand = null;
+            }
         }
     }
 
@@ -200,10 +242,44 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("EnemyHit"))
         {
-            if(IsBlocking)
+            if (IsBlocking)
+            {
                 _animator.SetTrigger("DamageTakenBlock");
+            }
             else
+            {
+                other.transform.root.GetComponent<EnemyController>().ReduceHealth(10);
+                ReduceStamina(StaminaReducePerHit);
+                if(Stamina <= 0)
+                {
+                    ReduceHealth(HealthReducePerHit);
+                }
                 _animator.SetTrigger("DamageTaken");
+            }
+        }
+    }
+
+    private float staminaTimeElapsed = 0;
+    private void IncreaseStaminaOvertime()
+    {
+        staminaTimeElapsed += Time.deltaTime;
+
+        if(staminaTimeElapsed >= StaminaIncreaseMultiplier)
+        {
+            staminaTimeElapsed %= StaminaIncreaseMultiplier;
+            AddStamina(1);
+        }
+    }
+
+    private float healthTimeElapsed = 0;
+    private void IncreaseHealthOvertime()
+    {
+        healthTimeElapsed += Time.deltaTime;
+
+        if (healthTimeElapsed >= HealthncreaseMultiplier)
+        {
+            healthTimeElapsed %= HealthncreaseMultiplier;
+            AddHealth(1);
         }
     }
 
@@ -215,5 +291,15 @@ public class PlayerController : MonoBehaviour
     public void ReduceHealth(float value)
     {
         Health = Mathf.Clamp(Health - value, 0, 100);
+    }
+
+    public void AddStamina(float value)
+    {
+        Stamina = Mathf.Clamp(Stamina + value, 0, 100);
+    }
+
+    public void ReduceStamina(float value)
+    {
+        Stamina = Mathf.Clamp(Stamina - value, 0, 100);
     }
 }

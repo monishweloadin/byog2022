@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider),typeof(Rigidbody))]
 public class PickableObject : MonoBehaviour
 {
+    public PickableType PickableType;
+
     public bool CanPickup;
     public Vector3 PostionOffset;
     public Vector3 ObjectRotation;
@@ -30,6 +32,16 @@ public class PickableObject : MonoBehaviour
             LevelManager.Instance.AvalaiblePickupObjects.Remove(gameObject);
             UIController.Instance.EnablePickupUI(false);
         }
-    }
+    }  
 
+    
+
+}
+
+public enum PickableType
+{
+    STOP,
+    BAT,
+    KEY,
+    WRENCH
 }
