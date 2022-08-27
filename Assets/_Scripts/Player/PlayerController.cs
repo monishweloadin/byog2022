@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpHeight = 3;
 
     [SerializeField] private bool _isGrounded = true;
-    [SerializeField] private bool _isBlocking = true;
+    public bool IsBlocking = true;
 
     private int _punchCombo = 0;
 
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        _isBlocking = false;
+        IsBlocking = false;
         _characterController = GetComponent<CharacterController>();  
         _animator = GetComponent<Animator>();
     }
@@ -55,8 +55,12 @@ public class PlayerController : MonoBehaviour
 
     private void Look()
     {
-        if (_input == Vector3.zero) return; 
-        
+        if (_input == Vector3.zero) return;
+
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Left_Jab") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Right_Jab") || IsBlocking
+    || _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Prop_Meele"))
+            return;
+
         Quaternion rot = Quaternion.LookRotation(_input.ToIso(), Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
     }
@@ -65,8 +69,8 @@ public class PlayerController : MonoBehaviour
     {
         float inputMagnitude = _input.normalized.magnitude;
 
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerLeftJab") || _animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerRightJab") || _isBlocking 
-            || _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Prop_Meele"))
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Left_Jab") || _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Right_Jab") || IsBlocking
+    || _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Prop_Meele"))
             inputMagnitude = 0;
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -148,12 +152,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             _animator.SetBool("IsBlocking", true);
-            _isBlocking = true;
+            IsBlocking = true;
         }
         else if(Input.GetMouseButtonUp(1))
         {
             _animator.SetBool("IsBlocking", false);
-            _isBlocking = false;
+            IsBlocking = false;
         }
     }
 
@@ -180,7 +184,7 @@ public class PlayerController : MonoBehaviour
                 obj.GetComponent<Rigidbody>().isKinematic= true;
                 obj.GetComponent<PickableObject>().CanPickup = false;
                 obj.transform.SetParent(RightHand.transform);
-                obj.transform.localPosition = Vector3.zero;
+                obj.transform.localPosition = obj.GetComponent<PickableObject>().PostionOffset;
                 obj.transform.localRotation = Quaternion.Euler(obj.GetComponent<PickableObject>().ObjectRotation);
 
                 _currentObjectOnHand = obj;

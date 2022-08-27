@@ -90,11 +90,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2928313547419694485}
-  - component: {fileID: 2587499424843984688}
   - component: {fileID: 2587499424843984691}
   - component: {fileID: 2587499424843984690}
   - component: {fileID: 2587499424843984685}
-  - component: {fileID: 2587499424843984684}
+  - component: {fileID: 6656317189064894321}
   m_Layer: 0
   m_Name: Spiked_Bat
   m_TagString: Untagged
@@ -109,7 +108,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2587499424843984687}
-  m_LocalRotation: {x: -0, y: -0, z: -0.10896393, w: 0.99404573}
+  m_LocalRotation: {x: 0, y: 0, z: -0.10896233, w: 0.9940459}
   m_LocalPosition: {x: 21.458666, y: 0.104, z: -21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -118,19 +117,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -12.511}
---- !u!135 &2587499424843984688
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2587499424843984687}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2587499424843984691
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -159,7 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 063656bde8c257b4ab13887a6bdedbf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectRotation: {x: 0, y: 90, z: 0}
+  CanPickup: 0
+  ObjectRotation: {x: 0, y: 0, z: 90}
 --- !u!65 &2587499424843984685
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -173,19 +160,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.18688393, y: 1.6146784, z: 0.31272125}
   m_Center: {x: -0.004839897, y: 1.0865765, z: 0.009679794}
---- !u!135 &2587499424843984684
-SphereCollider:
+--- !u!136 &6656317189064894321
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2587499424843984687}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.10312128
-  m_Center: {x: 0, y: 0.23231924, z: 0}
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4095466110577612839
 GameObject:
   m_ObjectHideFlags: 0

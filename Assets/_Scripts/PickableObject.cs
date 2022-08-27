@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(SphereCollider),typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider),typeof(Rigidbody))]
 public class PickableObject : MonoBehaviour
 {
     public bool CanPickup;
+    public Vector3 PostionOffset;
     public Vector3 ObjectRotation;
 
     private void Start()
     {
-        GetComponent<SphereCollider>().isTrigger = true;
-        GetComponent<SphereCollider>().radius = 2;
+        GetComponent<CapsuleCollider>().isTrigger = true;
     }
 
     private void OnTriggerEnter(Collider other)
