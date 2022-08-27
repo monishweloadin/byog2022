@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -9,17 +10,14 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] private float _minChaseDistance = 10;
     [SerializeField] private float _minAttackDistance = 10;
-    
 
+    public GameObject Player;
+    
     private bool _isGrounded = true;
 
-    private int _punchCombo = 0;
-
-    private CharacterController _characterController;
-    private float _turnSpeed = 360;
-    private Vector3 _input;
-
-    private float _gravity = -9.81f;
+    private NavMeshAgent _navMeshAgent;
+    private NavMeshPath _path;
+    
 
     private Animator _animator;
 
@@ -27,27 +25,40 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-
-        _characterController = GetComponent<CharacterController>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _path = new NavMeshPath();
         _animator = GetComponent<Animator>();
+
+        _enemyState = EnemyState.IDLE;
+
+        
     }
 
     private void Update()
-    {
-        if (PlayerWithinDistance(_minChaseDistance))
+    {        
+        _navMeshAgent.CalculatePath(Player.transform.position, _path);
+        if(_path.status != NavMeshPathStatus.PathComplete)
         {
-            ChangeState(EnemyState.CHASE);
+            print("return");
+            return;
         }
-        else if (PlayerWithinDistance(_minAttackDistance))
+
+        if (PlayerWithinDistance(_path, _minAttackDistance))
         {
             ChangeState(EnemyState.ATTACK);
+        }
+        else if (PlayerWithinDistance(_path, _minChaseDistance))
+        {
+            ChangeState(EnemyState.CHASE);
         }
         else
         {
             ChangeState(EnemyState.IDLE);
         }
-        
-        ApplyGravity();
+
+        if(_enemyState == EnemyState.CHASE)
+            _navMeshAgent.destination = Player.transform.position;
+
     }
 
 
@@ -59,6 +70,7 @@ public class EnemyController : MonoBehaviour
         switch (state)
         {
             case EnemyState.IDLE:
+
                 break;
             case EnemyState.CHASE:
                 break;
@@ -68,86 +80,27 @@ public class EnemyController : MonoBehaviour
         _enemyState = state;
     }
 
-    private bool PlayerWithinDistance(float distanceThreshold)
+    public float GetPathLength(NavMeshPath path)
     {
-        return true;
-    }
+        float lng = 0.0f;
 
-
-    private void GetInput()
-    {
-        _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-    }
-
-    private void Look()
-    {
-        if (_input == Vector3.zero) return;
-
-        Quaternion rot = Quaternion.LookRotation(_input.ToIso(), Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
-    }
-
-    private void Move()
-    {
-        float inputMagnitude = _input.normalized.magnitude;
-
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        if ((path.status != NavMeshPathStatus.PathInvalid) && (path.corners.Length > 1))
         {
-            inputMagnitude *= _sprintSpeedMultiplier;
-        }
-
-        _animator.SetFloat("MovementBlend", inputMagnitude);
-
-        _characterController.Move(transform.forward * inputMagnitude * _moveSpeed * Time.deltaTime);
-
-    }
-
-
-
-    private void Punch()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-
-            switch (_punchCombo)
+            for (int i = 1; i < path.corners.Length; ++i)
             {
-                case 0:
-                    _punchCombo = 1;
-                    _animator.SetTrigger("Punch1");
-                    break;
-                case 1:
-                    _punchCombo = 0;
-                    _animator.SetTrigger("Punch2");
-                    break;
-            }
-
-        }
-    }
-
-
-    public Vector3 enemyVelocity;
-    private void ApplyGravity()
-    {
-
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.3f))
-        {
-            if (hit.transform.CompareTag("Ground"))
-            {
-                _isGrounded = true;
+                lng += Vector3.Distance(path.corners[i - 1], path.corners[i]);
             }
         }
+
+        return lng;
+    }
+
+    private bool PlayerWithinDistance(NavMeshPath path, float distanceThreshold)
+    {
+        if (GetPathLength(path) <= distanceThreshold)
+            return true;
         else
-        {
-            _isGrounded = false;
-        }
-
-        if (_isGrounded && enemyVelocity.y < -1f)
-            enemyVelocity.y = 0;
-
-
-        enemyVelocity.y += _gravity * 10 * Time.deltaTime;
-        _characterController.Move(enemyVelocity * Time.deltaTime);
+            return false;
     }
 
 
