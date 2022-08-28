@@ -797,6 +797,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2929758070845506948, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
+      propertyPath: _minChaseDistance
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3162460063895412536, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1203,6 +1207,10 @@ PrefabInstance:
     - target: {fileID: 993196998770364725, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929758070845506948, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
+      propertyPath: _minChaseDistance
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3162460063895412536, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1670,6 +1678,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2929758070845506948, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
+      propertyPath: _minChaseDistance
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3162460063895412536, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2007,6 +2019,10 @@ PrefabInstance:
     - target: {fileID: 993196998770364725, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929758070845506948, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
+      propertyPath: _minChaseDistance
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3162460063895412536, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2850,6 +2866,10 @@ PrefabInstance:
     - target: {fileID: 993196998770364725, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929758070845506948, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
+      propertyPath: _minChaseDistance
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3162460063895412536, guid: e376d2b2139c98342b00b0eea50e6929, type: 3}
       propertyPath: m_AnchorMax.x
