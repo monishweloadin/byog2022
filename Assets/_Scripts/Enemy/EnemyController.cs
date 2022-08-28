@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour
         _animator.SetTrigger("Died");
         EnemyNavMeshAgent.isStopped = true;
         SoundManager.Instance.PlaySFX(SoundManager.Instance.KILL);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         gameObject.SetActive(false);
     }
 

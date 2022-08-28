@@ -27,7 +27,12 @@ public class Door : MonoBehaviour
             {
                 if (other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY && LevelManager.Instance.GameCompleted)
                 {
-                    UIController.Instance.EnableGameCompletedUI();
+                    foreach (Transform i in transform)
+                    {
+                        i.GetComponent<Animator>().SetTrigger("Open");
+                    }
+
+                    StartCoroutine(WaitForOpenDoor());
                 }
                 else if (other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY)
                 {
@@ -63,5 +68,11 @@ public class Door : MonoBehaviour
                 }
             }
         }
+    }
+
+    public IEnumerator WaitForOpenDoor()
+    {
+        yield return new WaitForSeconds(3f);
+        UIController.Instance.EnableGameCompletedUI();
     }
 }
