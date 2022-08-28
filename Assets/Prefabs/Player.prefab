@@ -283,11 +283,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
-  Stamina: 100
+  Stamina: 10
   HealthReducePerHit: 10
   StaminaReducePerHit: 5
   HealthncreaseMultiplier: 1
-  StaminaIncreaseMultiplier: 10
+  StaminaIncreaseMultiplier: 0.5
   CanIncraseStamina: 1
   CanIncraseHealth: 0
   _moveSpeed: 5
@@ -295,6 +295,7 @@ MonoBehaviour:
   _jumpHeight: 25
   _isGrounded: 1
   IsBlocking: 1
+  _animator: {fileID: 0}
   RightHand: {fileID: 4458550583216486517}
   CurrentObjectOnHand: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}

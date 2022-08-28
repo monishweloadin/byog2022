@@ -1247,7 +1247,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 908059185316341905}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: ExitPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4226342390098059832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1700,7 +1712,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PickupUI: {fileID: 5323026923474632692}
+  InteractUI: {fileID: 5929605191197912382}
   GameOverUI: {fileID: 5323026923285832441}
+  YouThoughItsThatEasyUI: {fileID: 456365863515648354}
   HealthSlider: {fileID: 5323026922528855536}
   StaminaSider: {fileID: 5323026922658190753}
 --- !u!1 &5323026922733870432
@@ -2445,7 +2459,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5323026923581991229}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: PlayAgainPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5323026923800206625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2960,7 +2986,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2448177348190327440}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: ExitPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6337753671119682712
 GameObject:
   m_ObjectHideFlags: 0
@@ -3215,7 +3253,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4446042756019372461}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: PlayAgainPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7759930603998969155
 GameObject:
   m_ObjectHideFlags: 0

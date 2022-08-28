@@ -13,11 +13,14 @@ public class Door : MonoBehaviour
             UIController.Instance.EnableInteractUI(true);
             if (IsFirstDoor)
             {
-                if(other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY)
+                if (other.GetComponent<PlayerController>().CurrentObjectOnHand != null)
                 {
-                    foreach(Transform i in transform)
+                    if (other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY)
                     {
-                        i.GetComponent<Animator>().SetTrigger("Open");
+                        foreach (Transform i in transform)
+                        {
+                            i.GetComponent<Animator>().SetTrigger("Open");
+                        }
                     }
                 }
             }
@@ -38,7 +41,16 @@ public class Door : MonoBehaviour
             UIController.Instance.EnableInteractUI(false);
             if (IsFirstDoor)
             {
-
+                if (other.GetComponent<PlayerController>().CurrentObjectOnHand != null)
+                {
+                    if (other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY)
+                    {
+                        other.GetComponent<PlayerController>().CurrentObjectOnHand.transform.parent = null;
+                        other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<CapsuleCollider>().enabled = true;
+                        other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<Rigidbody>().isKinematic = false;
+                        other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().CanPickup = true;
+                    }
+                }
             }
             else
             {

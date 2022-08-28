@@ -92,7 +92,6 @@ public class EnemyController : MonoBehaviour
         EnemyNavMeshAgent.CalculatePath(_player.transform.position, _path);
         if(_path.status != NavMeshPathStatus.PathComplete)
         {
-            print("return");
             return;
         }
 
