@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f704a5716891ce4aab81b6fb46bbb19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MUSIC: {fileID: 8300000, guid: c5bed5574dde845408400b2919a83788, type: 3}
+  MUSIC: {fileID: 8300000, guid: 8c309074ef3ef9c4db603b1c598a1c98, type: 3}
   GIVEDAMAGE: {fileID: 8300000, guid: 0b7b6b7579d2a454c9fa88924cfdf4c4, type: 3}
   TAKEDAMAGE: {fileID: 8300000, guid: 0b7b6b7579d2a454c9fa88924cfdf4c4, type: 3}
   PICKUPITEM: {fileID: 0}
@@ -224,7 +224,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c5bed5574dde845408400b2919a83788, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0

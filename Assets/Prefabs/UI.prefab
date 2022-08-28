@@ -771,7 +771,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Haha ! Lol You thought it would be that easy.
+  m_text: Haha ! LOL You thought it would be that easy.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4654de628e0500548ab3eb24be3642ed, type: 2}
   m_sharedMaterial: {fileID: 5731660903123612537, guid: 4654de628e0500548ab3eb24be3642ed, type: 2}
@@ -1712,8 +1712,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PickupUI: {fileID: 5323026923474632692}
-  InteractUI: {fileID: 5929605191197912382}
   GameOverUI: {fileID: 5323026923285832441}
+  GameCompleteUI: {fileID: 0}
   YouThoughItsThatEasyUI: {fileID: 456365863515648354}
   HealthSlider: {fileID: 5323026922528855536}
   StaminaSider: {fileID: 5323026922658190753}
