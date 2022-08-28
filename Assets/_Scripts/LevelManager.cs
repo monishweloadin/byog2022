@@ -15,5 +15,7 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         else
             Destroy(Instance);
+
+        Time.timeScale = 1;
     }
 }

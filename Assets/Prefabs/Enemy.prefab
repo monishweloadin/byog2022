@@ -1649,7 +1649,7 @@ GameObject:
   - component: {fileID: 1370581146}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1726,11 +1726,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
-  _minChaseDistance: 10
+  HealthReducePerHit: 10
+  HealthDecreaseMultiplier: 1
+  CanReduceLifeOverTime: 0
+  _minChaseDistance: 100
   _minAttackDistance: 2
   RightHand: {fileID: 7813269204151710137}
   ShowDistance: 0
+  EnemyNavMeshAgent: {fileID: 0}
   CurrentlyHoldingItem: {fileID: 0}
+  HealthUI: {fileID: 1689894132659374231}
+  CanMove: 0
 --- !u!54 &1370581147
 Rigidbody:
   m_ObjectHideFlags: 0
