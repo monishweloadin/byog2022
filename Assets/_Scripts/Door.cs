@@ -10,7 +10,6 @@ public class Door : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            UIController.Instance.EnableInteractUI(true);
             if (IsFirstDoor)
             {
                 if (other.GetComponent<PlayerController>().CurrentObjectOnHand != null)
@@ -26,8 +25,9 @@ public class Door : MonoBehaviour
             }
             else
             {
-                if (other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY)
+                if (other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY && LevelManager.Instance.GameCompleted)
                 {
+                    
                     UIController.Instance.YouThoughItsThatEasyUI.SetActive(true);
                 }
             }
@@ -38,7 +38,6 @@ public class Door : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            UIController.Instance.EnableInteractUI(false);
             if (IsFirstDoor)
             {
                 if (other.GetComponent<PlayerController>().CurrentObjectOnHand != null)

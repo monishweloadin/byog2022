@@ -3778,33 +3778,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6506883540714105899, guid: 5e095a54d85824e4aa9243f4cc7233d9, type: 3}
-      propertyPath: DEAD
-      value: 
-      objectReference: {fileID: 8300000, guid: 4cf7e757132917049a49861fa31b5e60, type: 3}
-    - target: {fileID: 6506883540714105899, guid: 5e095a54d85824e4aa9243f4cc7233d9, type: 3}
-      propertyPath: KILL
-      value: 
-      objectReference: {fileID: 8300000, guid: 531da0a526486f44d96b35f688a3be9d, type: 3}
-    - target: {fileID: 6506883540714105899, guid: 5e095a54d85824e4aa9243f4cc7233d9, type: 3}
-      propertyPath: MUSIC
-      value: 
-      objectReference: {fileID: 8300000, guid: c5bed5574dde845408400b2919a83788, type: 3}
-    - target: {fileID: 6506883540714105899, guid: 5e095a54d85824e4aa9243f4cc7233d9, type: 3}
-      propertyPath: UIBUTTON
-      value: 
-      objectReference: {fileID: 8300000, guid: c37cc2a912b26364693118851e64fc32, type: 3}
-    - target: {fileID: 6506883540714105899, guid: 5e095a54d85824e4aa9243f4cc7233d9, type: 3}
-      propertyPath: GIVEDAMAGE
-      value: 
-      objectReference: {fileID: 8300000, guid: 0b7b6b7579d2a454c9fa88924cfdf4c4, type: 3}
-    - target: {fileID: 6506883540714105899, guid: 5e095a54d85824e4aa9243f4cc7233d9, type: 3}
-      propertyPath: PICKUPITEM
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6506883540714105899, guid: 5e095a54d85824e4aa9243f4cc7233d9, type: 3}
-      propertyPath: TAKEDAMAGE
-      value: 
-      objectReference: {fileID: 8300000, guid: 0b7b6b7579d2a454c9fa88924cfdf4c4, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e095a54d85824e4aa9243f4cc7233d9, type: 3}

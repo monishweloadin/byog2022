@@ -9,8 +9,8 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
 
     public GameObject PickupUI;
-    public GameObject InteractUI;
     public GameObject GameOverUI;
+    public GameObject GameCompleteUI;
 
     public GameObject YouThoughItsThatEasyUI;
 
@@ -55,9 +55,10 @@ public class UIController : MonoBehaviour
         GameOverUI.SetActive(value);
     }
     
-    public void EnableInteractUI(bool value)
+    public void EnableGameCompletedUI()
     {
-        InteractUI.SetActive(value);
+        Time.timeScale = 0;
+        GameCompleteUI.SetActive(true);
     }
 
 }

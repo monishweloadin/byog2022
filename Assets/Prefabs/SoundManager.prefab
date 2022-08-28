@@ -42,8 +42,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -172,14 +172,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f704a5716891ce4aab81b6fb46bbb19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MUSIC: {fileID: 0}
-  GIVEDAMAGE: {fileID: 0}
-  TAKEDAMAGE: {fileID: 0}
-  KILL: {fileID: 0}
-  DEAD: {fileID: 0}
-  UIBUTTON: {fileID: 0}
-  BGM: {fileID: 0}
-  SFX: {fileID: 0}
+  MUSIC: {fileID: 8300000, guid: c5bed5574dde845408400b2919a83788, type: 3}
+  GIVEDAMAGE: {fileID: 8300000, guid: 0b7b6b7579d2a454c9fa88924cfdf4c4, type: 3}
+  TAKEDAMAGE: {fileID: 8300000, guid: 0b7b6b7579d2a454c9fa88924cfdf4c4, type: 3}
+  PICKUPITEM: {fileID: 0}
+  KILL: {fileID: 8300000, guid: 531da0a526486f44d96b35f688a3be9d, type: 3}
+  DEAD: {fileID: 8300000, guid: 4cf7e757132917049a49861fa31b5e60, type: 3}
+  UIBUTTON: {fileID: 8300000, guid: c37cc2a912b26364693118851e64fc32, type: 3}
+  BGM: {fileID: 74039259117743735}
+  SFX: {fileID: 957803452498100253}
 --- !u!1 &8604691338895139012
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,9 +222,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: c5bed5574dde845408400b2919a83788, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
