@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     private float _gravity = -9.81f;
 
-    private Animator _animator;
+    public Animator _animator;
 
     public GameObject RightHand;
 

@@ -24,6 +24,7 @@ public class Trap : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 other.GetComponent<PlayerController>().CanIncraseHealth = true;
+                other.GetComponent<PlayerController>()._animator.SetTrigger("DamageTaken");
             }
 
             if (other.CompareTag("Enemy"))

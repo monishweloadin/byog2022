@@ -9,6 +9,10 @@ public class LevelManager : MonoBehaviour
     public GameObject Player;
     public List<GameObject> AvalaiblePickupObjects;
 
+    public List<GameObject> AvailableEnemeis;
+
+    public bool GameCompleted;
+
     private void Awake()
     {
         if (Instance == null)
@@ -17,5 +21,19 @@ public class LevelManager : MonoBehaviour
             Destroy(Instance);
 
         Time.timeScale = 1;
+    }
+
+    private void Update()
+    {
+        if (!GameCompleted)
+        {
+            foreach (GameObject obj in AvailableEnemeis)
+            {
+                if (obj.activeSelf)
+                    return;
+            }
+            GameCompleted = true;
+            //open door
+        }
     }
 }
