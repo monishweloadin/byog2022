@@ -2480,7 +2480,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '- INTERACTION'
+  m_Text: '- DROP'
 --- !u!222 &2120381209
 CanvasRenderer:
   m_ObjectHideFlags: 0
