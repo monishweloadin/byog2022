@@ -47,6 +47,23 @@ public class Trap : MonoBehaviour
         }
     }
 
+    private float playerDamageTakenElapsed = 0;
+    private void OnTriggerStay(Collider other)
+    {
+        if (trapType == TrapType.SPIKE)
+        {
+            if (other.CompareTag("Player"))
+            {
+                playerDamageTakenElapsed += Time.deltaTime;
+                if (playerDamageTakenElapsed >= 0.7f)
+                {
+                    playerDamageTakenElapsed %= 0.7f;
+                    other.GetComponent<PlayerController>()._animator.SetTrigger("DamageTaken");
+                }
+            }
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (trapType == TrapType.SPIKE)
