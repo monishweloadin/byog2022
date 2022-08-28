@@ -28,7 +28,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        BGM.clip = MUSIC;
+        //BGM.clip = MUSIC;
     }
 
     public void PlaySFX(AudioClip clip)
