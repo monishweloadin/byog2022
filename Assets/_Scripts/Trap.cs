@@ -61,7 +61,9 @@ public class Trap : MonoBehaviour
                     other.GetComponent<PlayerController>()._animator.SetTrigger("DamageTaken");
                 }
             }
+
         }
+
     }
 
     private void OnTriggerExit(Collider other)

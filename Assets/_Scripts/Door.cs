@@ -27,6 +27,10 @@ public class Door : MonoBehaviour
             {
                 if (other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY && LevelManager.Instance.GameCompleted)
                 {
+                    UIController.Instance.EnableGameCompletedUI();
+                }
+                else if (other.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY)
+                {
                     
                     UIController.Instance.YouThoughItsThatEasyUI.SetActive(true);
                 }

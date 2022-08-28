@@ -1726,8 +1726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
-  HealthReducePerHit: 10
-  HealthDecreaseMultiplier: 1
+  HealthReducePerHit: 30
+  HealthDecreaseMultiplier: 0.5
   CanReduceLifeOverTime: 0
   _minChaseDistance: 100
   _minAttackDistance: 2

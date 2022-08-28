@@ -263,7 +263,7 @@ public class EnemyController : MonoBehaviour
         if (healthTimeElapsed >= HealthDecreaseMultiplier)
         {
             healthTimeElapsed %= HealthDecreaseMultiplier;
-            ReduceHealth(1);
+            ReduceHealth(5);
         }
     }
 
