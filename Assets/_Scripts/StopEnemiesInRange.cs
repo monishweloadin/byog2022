@@ -25,6 +25,7 @@ public class StopEnemiesInRange : MonoBehaviour
             enemies.Remove(other.GetComponent<EnemyController>());
 
             other.GetComponent<EnemyController>().ResetEnemyMoving();
+            other.GetComponent<EnemyController>().ResetState();
             other.GetComponent<EnemyController>().CanMove = true;
         }
     }
@@ -34,6 +35,7 @@ public class StopEnemiesInRange : MonoBehaviour
         foreach(EnemyController enemy in enemies)
         {
             enemy.ResetEnemyMoving();
+            enemy.ResetState();
             enemy.CanMove = true;
         }
         enemies.Clear();

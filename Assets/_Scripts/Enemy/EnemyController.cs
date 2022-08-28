@@ -37,6 +37,8 @@ public class EnemyController : MonoBehaviour
 
     public bool CanMove;
 
+    private bool _isDead;
+
     private void Start()
     {
         CanMove = true;
@@ -48,12 +50,25 @@ public class EnemyController : MonoBehaviour
         EnemyNavMeshAgent.isStopped = false;
 
         ChangeState(EnemyState.IDLE);
+    }
 
+    public IEnumerator KillEnemy()
+    {
+        _isDead = true;
+        _animator.SetTrigger("Died");
+        EnemyNavMeshAgent.isStopped = true;
+        yield return new WaitForSeconds(5f);
+        gameObject.SetActive(false);
     }
 
     public void ResetEnemyMoving()
     {
         EnemyNavMeshAgent.isStopped = false;
+    }
+
+    public void ResetState()
+    {
+        ChangeState(_enemyState);
     }
 
     public void ChangeToIdle()
@@ -63,6 +78,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        if (_isDead) return;
         if (!CanMove)
         {
             EnemyNavMeshAgent.isStopped = true;
@@ -101,6 +117,9 @@ public class EnemyController : MonoBehaviour
         if (CanReduceLifeOverTime)
             DecreaseHealthOvertime();
 
+
+        if (Health <= 0)
+            StartCoroutine(KillEnemy());
     }
 
     public void UpdateSelfUI()
@@ -165,28 +184,34 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerHit"))
+        if (other.CompareTag("PlayerHit") && !_isDead)
         {
-            other.transform.root.GetComponent<PlayerController>().ReduceHealth(10);
             _animator.SetTrigger("DamageTaken");
-
             if (other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand != null)
             {
-                GameObject obj = other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand;
-                other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand = null;
-
-                if (CurrentlyHoldingItem != null) 
-                { 
-                    CurrentlyHoldingItem.transform.parent = null;
-
-                    CurrentlyHoldingItem.GetComponent<CapsuleCollider>().enabled = true;
-                    CurrentlyHoldingItem.GetComponent<BoxCollider>().enabled = true;
-                    CurrentlyHoldingItem.GetComponent<Rigidbody>().isKinematic = false;
-                    CurrentlyHoldingItem.GetComponent<PickableObject>().CanPickup = true;
+                if (other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY)
+                {
+                    ReduceHealth(HealthReducePerHit);
                 }
+                else
+                {
+                    other.transform.root.GetComponent<PlayerController>().ReduceHealth(10);
 
-                PickupObject(obj);
+                    GameObject obj = other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand;
+                    other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand = null;
 
+                    if (CurrentlyHoldingItem != null)
+                    {
+                        CurrentlyHoldingItem.transform.parent = null;
+
+                        CurrentlyHoldingItem.GetComponent<CapsuleCollider>().enabled = true;
+                        CurrentlyHoldingItem.GetComponent<BoxCollider>().enabled = true;
+                        CurrentlyHoldingItem.GetComponent<Rigidbody>().isKinematic = false;
+                        CurrentlyHoldingItem.GetComponent<PickableObject>().CanPickup = true;
+                    }
+
+                    PickupObject(obj);
+                }
             }
         }
 

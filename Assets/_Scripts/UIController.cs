@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
 
     public GameObject PickupUI;
+    public GameObject GameOverUI;
 
     private PlayerController _player;
 
@@ -43,6 +45,11 @@ public class UIController : MonoBehaviour
     public void EnablePickupUI(bool active)
     {
         PickupUI.SetActive(active);
+    }
+
+    public void EnableGameOverScreen(bool value)
+    {
+        GameOverUI.SetActive(value);
     }
     
 }

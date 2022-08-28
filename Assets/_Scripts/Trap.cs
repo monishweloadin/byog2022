@@ -1,32 +1,80 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Trap : MonoBehaviour
 {
+
+    public TrapType trapType;
+
+    private void Start()
+    {
+        if (trapType == TrapType.MEDKIT)
+        {
+            transform.DOMoveY(transform.position.y + 1, 1f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+            transform.DORotate(Vector3.up * 360, 3f, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (trapType == TrapType.SPIKE)
         {
-            other.GetComponent<PlayerController>().CanIncraseHealth = true;
-        }
+            if (other.CompareTag("Player"))
+            {
+                other.GetComponent<PlayerController>().CanIncraseHealth = true;
+            }
 
-        if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().CanReduceLifeOverTime = true;
+            }
+        }
+        else if(trapType == TrapType.MEDKIT)
         {
-            other.GetComponent<EnemyController>().CanReduceLifeOverTime = true;
+            if (other.CompareTag("Player"))
+            {
+                other.GetComponent<PlayerController>().ReduceHealth(200);
+            }
+
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().AddHealth(200);
+            }
+            StartCoroutine(TurnOffObject());
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (trapType == TrapType.SPIKE)
         {
-            other.GetComponent<PlayerController>().CanIncraseHealth = false;
-        }
+            if (other.CompareTag("Player"))
+            {
+                other.GetComponent<PlayerController>().CanIncraseHealth = false;
+            }
 
-        if (other.CompareTag("Enemy"))
-        {
-            other.GetComponent<EnemyController>().CanReduceLifeOverTime = false;
+            if (other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemyController>().CanReduceLifeOverTime = false;
+            }
         }
     }
+
+    public IEnumerator TurnOffObject()
+    {
+        gameObject.GetComponent<SphereCollider>().enabled = false;
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(3f);
+        gameObject.GetComponent<SphereCollider>().enabled = true;
+        gameObject.GetComponent<MeshRenderer>().enabled = true;
+    }
+
+}
+
+public enum TrapType
+{
+    SPIKE,
+    MEDKIT
 }

@@ -45,8 +45,21 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    private bool _isDead;
+    public IEnumerator KillPlayer()
+    {
+        _isDead = true;
+        _animator.SetTrigger("Died");
+        yield return new WaitForSeconds(2f);
+
+        Time.timeScale = 0;
+        UIController.Instance.EnableGameOverScreen(true);
+    }
+
     private void Update()
     {
+        if (_isDead) return;
+
         CheckForGrounded();
         GetInput();
         Look();
@@ -62,6 +75,9 @@ public class PlayerController : MonoBehaviour
 
         if(CanIncraseHealth)
             IncreaseHealthOvertime();
+
+        if (Health <= 0)
+            StartCoroutine(KillPlayer());
     }
 
 
