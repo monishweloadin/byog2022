@@ -9,7 +9,6 @@ public class DummyEnemy : MonoBehaviour
     public GameObject RightHand;
 
     private GameObject _player;
-    private Animator _animator;
 
 
     public GameObject CurrentlyHoldingItem;
@@ -21,7 +20,6 @@ public class DummyEnemy : MonoBehaviour
         _player = LevelManager.Instance.Player;
 
 
-        _animator = GetComponent<Animator>();
 ;
     }
 
@@ -29,7 +27,6 @@ public class DummyEnemy : MonoBehaviour
     {
         if (other.CompareTag("PlayerHit"))
         {
-            _animator.SetTrigger("DamageTaken");
             if (other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand != null)
             {
 
