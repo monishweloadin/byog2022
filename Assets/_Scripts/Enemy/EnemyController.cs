@@ -57,6 +57,7 @@ public class EnemyController : MonoBehaviour
         _isDead = true;
         _animator.SetTrigger("Died");
         EnemyNavMeshAgent.isStopped = true;
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.KILL);
         yield return new WaitForSeconds(5f);
         gameObject.SetActive(false);
     }
@@ -187,6 +188,7 @@ public class EnemyController : MonoBehaviour
         if (other.CompareTag("PlayerHit") && !_isDead)
         {
             _animator.SetTrigger("DamageTaken");
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.GIVEDAMAGE);
             if (other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand != null)
             {
                 if (other.transform.root.GetComponent<PlayerController>().CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.KEY)

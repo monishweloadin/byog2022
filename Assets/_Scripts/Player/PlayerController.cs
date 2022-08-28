@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         _isDead = true;
         _animator.SetTrigger("Died");
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.DEAD);
         yield return new WaitForSeconds(2f);
 
         Time.timeScale = 0;
@@ -219,6 +220,7 @@ public class PlayerController : MonoBehaviour
                 obj.transform.localRotation = Quaternion.Euler(obj.GetComponent<PickableObject>().ObjectRotation);
 
                 CurrentObjectOnHand = obj;
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.PICKUPITEM);
 
                 if (CurrentObjectOnHand.GetComponent<PickableObject>().PickableType == PickableType.STOP)
                 {
@@ -272,6 +274,7 @@ public class PlayerController : MonoBehaviour
                 }
                 _animator.SetTrigger("DamageTaken");
             }
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.TAKEDAMAGE);
         }
     }
 

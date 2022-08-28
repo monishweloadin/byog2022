@@ -18,9 +18,6 @@ public class DummyEnemy : MonoBehaviour
     {
 
         _player = LevelManager.Instance.Player;
-
-
-;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip MUSIC;
     public AudioClip GIVEDAMAGE;
     public AudioClip TAKEDAMAGE;
+    public AudioClip PICKUPITEM;
     public AudioClip KILL;
     public AudioClip DEAD;
     public AudioClip UIBUTTON;
@@ -33,7 +34,14 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
-        SFX.PlayOneShot(clip);
+        if(clip != null)
+            SFX.PlayOneShot(clip);
+    }
+
+    public void PlayUISound()
+    {
+        if(UIBUTTON != null)
+            SFX.PlayOneShot(UIBUTTON);
     }
 
     
